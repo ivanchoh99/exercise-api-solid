@@ -18,7 +18,6 @@ public class CharactersController {
 
     @GetMapping("/characters")
     public List<CharacterDTO> getCharacters() {
-        var characters = service.getCharacters();
-        return service.orderCharacters(characters);
+        return service.getCharacters();
     }
 }

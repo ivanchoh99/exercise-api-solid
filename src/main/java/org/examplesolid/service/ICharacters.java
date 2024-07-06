@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface ICharacters {
     List<CharacterDTO> getCharacters();
-
-    List<CharacterDTO> orderCharacters(List<CharacterDTO> characters);
 }

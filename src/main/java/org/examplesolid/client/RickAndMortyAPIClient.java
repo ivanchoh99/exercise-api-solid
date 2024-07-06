@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 
 @Repository
-public class RickAndMortyAPIClient {
+public class RickAndMortyAPIClient implements IRickAndMortyAPI{
 
     private final WebClient webClient;
 
@@ -16,10 +16,12 @@ public class RickAndMortyAPIClient {
         this.webClient = webClient.baseUrl("https://rickandmortyapi.com/api").build();
     }
 
+    @Override
     public Mono<CharacterResponse> getRickAndMortyCharacters(){
         return webClient.get().uri("/character")
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new RuntimeException()))
+                .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new RuntimeException()))
                 .bodyToMono(CharacterResponse.class);
     }
 }
