@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.print.attribute.standard.Destination;
+import java.util.List;
+
 @Component
 public class CharacterMapper implements ICharacterMapper {
 
@@ -36,6 +39,9 @@ public class CharacterMapper implements ICharacterMapper {
 
     @Override
     public CharacterEntity apiToEntity(CharacterAPI characterAPI) {
+        mapper.typeMap(CharacterAPI.class, CharacterEntity.class).addMappings(mapping -> {
+            mapping.map(CharacterAPI::episodes, (destination, value) -> destination.setEpisodes((List<String>) value));
+        }).map(characterAPI);
         return mapper.map(characterAPI, CharacterEntity.class);
     }
 }

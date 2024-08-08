@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +19,8 @@ public class CharacterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<EpisodeEntity> episodes;
 }

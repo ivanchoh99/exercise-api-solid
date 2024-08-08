@@ -35,6 +35,11 @@ public class CharacterMySQL implements ICharacterRepository {
     }
 
     @Override
+    public List<CharacterEntity> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
     public CharacterEntity findByName(String name) {
         return repository.findByName(name);
     }
