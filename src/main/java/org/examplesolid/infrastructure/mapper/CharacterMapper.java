@@ -1,30 +1,37 @@
 package org.examplesolid.infrastructure.mapper;
 
+import org.examplesolid.domain.model.api.CharacterAPI;
 import org.examplesolid.domain.model.dto.Character;
 import org.examplesolid.domain.model.dto.CharacterSimple;
-import org.examplesolid.domain.model.api.CharacterAPI;
 import org.examplesolid.domain.model.entity.CharacterEntity;
+import org.examplesolid.domain.model.entity.EpisodeEntity;
 import org.examplesolid.domain.port.mapper.ICharacterMapper;
+import org.examplesolid.domain.port.service.IFunFact;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.print.attribute.standard.Destination;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class CharacterMapper implements ICharacterMapper {
 
     private final ModelMapper mapper;
+    private final IFunFact funFactService;
 
     @Autowired
-    public CharacterMapper(ModelMapper mapper) {
+    public CharacterMapper(ModelMapper mapper, IFunFact funFactService) {
         this.mapper = mapper;
+        this.funFactService = funFactService;
     }
 
     @Override
     public Character entityToDomain(CharacterEntity characterEntity) {
-        return mapper.map(characterEntity, Character.class);
+        Set<Integer> episodes = characterEntity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
+        List<String> funFacts = funFactService.stringToList(characterEntity.getFunFacts());
+        return new Character(characterEntity.getName(), episodes, funFacts);
     }
 
     @Override
@@ -34,14 +41,21 @@ public class CharacterMapper implements ICharacterMapper {
 
     @Override
     public CharacterSimple apiToSimple(CharacterAPI characterAPI) {
-        return mapper.map(characterAPI,CharacterSimple.class);
+        return mapper.map(characterAPI, CharacterSimple.class);
     }
 
     @Override
     public CharacterEntity apiToEntity(CharacterAPI characterAPI) {
         mapper.typeMap(CharacterAPI.class, CharacterEntity.class).addMappings(mapping -> {
-            mapping.map(CharacterAPI::episodes, (destination, value) -> destination.setEpisodes((List<String>) value));
+            mapping.map(CharacterAPI::episode, (destination, value) -> destination.setEpisodes((List<String>) value));
         }).map(characterAPI);
-        return mapper.map(characterAPI, CharacterEntity.class);
+        Set<EpisodeEntity> episodes = characterAPI.episode().stream()
+                .map(episode -> Integer.parseInt(episode.replaceAll("https://rickandmortyapi.com/api/episode/", "")))
+                .map(EpisodeEntity::new)
+                .collect(Collectors.toSet());
+        CharacterEntity character = mapper.map(characterAPI, CharacterEntity.class);
+        episodes.forEach(episode -> episode.setCharacter(character));
+        character.setEpisodes(episodes);
+        return character;
     }
 }
