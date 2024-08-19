@@ -10,6 +10,6 @@ public record CharacterAPI(int id,
                            Location origin,
                            Location location,
                            String image,
-                           List<String> episodes,
+                           List<String> episode,
                            String url, String created) {
 }
