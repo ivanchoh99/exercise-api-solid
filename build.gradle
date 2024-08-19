@@ -40,7 +40,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
     testImplementation 'org.assertj:assertj-core:3.25.3'
-    testImplementation 'com.h2database:h2:2.2.224'
+    testAndDevelopmentOnly 'com.h2database:h2:2.2.224'
 }
 
 repositories {

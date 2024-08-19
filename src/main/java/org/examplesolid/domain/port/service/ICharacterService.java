@@ -9,7 +9,8 @@ import java.util.List;
 
 public interface ICharacterService {
     List<CharacterSimple> getCharactersFromApiAndSort();
-    List<Character> getAllCharactersFromDB(Pageable pageable);
+    List<Character> getAllCharactersFromDBInPage(Pageable pageable);
+    List<CharacterEntity> getAllCharactersFromDB();
     Character getCharacterFromDB(String name);
     List<CharacterEntity> saveCharactersFromApi();
 }

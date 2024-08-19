@@ -2,6 +2,7 @@ package org.examplesolid.infrastructure.rest.controller;
 
 import org.examplesolid.domain.model.dto.Character;
 import org.examplesolid.domain.model.dto.CharacterSimple;
+import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.port.service.ICharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -27,12 +28,17 @@ public class CharactersController {
         return ResponseEntity.ok(service.getCharactersFromApiAndSort());
     }
 
-    @GetMapping("/charaters-db")
+    @GetMapping("/charaters-db-pag")
     public ResponseEntity<List<Character>> gerCharactersDB(
             @RequestParam(name = "page",defaultValue = "0") Integer page,
             @RequestParam(name = "size",defaultValue = "3")Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(service.getAllCharactersFromDB(pageable));
+        return ResponseEntity.ok(service.getAllCharactersFromDBInPage(pageable));
+    }
+
+    @GetMapping("/charaters-db")
+    public ResponseEntity<List<CharacterEntity>> gerCharactersDB() {
+        return ResponseEntity.ok(service.getAllCharactersFromDB());
     }
 
     @GetMapping("/character/{name}")
