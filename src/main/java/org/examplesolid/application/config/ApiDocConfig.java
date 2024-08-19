@@ -1,4 +1,4 @@
-package org.examplesolid.application.service;
+package org.examplesolid.application.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -14,7 +14,7 @@ import java.util.List;
 @Configuration
 public class ApiDocConfig {
 
-    @Value("$api.doc.dev-url")
+    @Value("${api.doc.dev-url}")
     private String devUrl;
 
     @Bean
