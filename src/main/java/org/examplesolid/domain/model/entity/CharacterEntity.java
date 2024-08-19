@@ -36,8 +36,11 @@ public class CharacterEntity {
     )
     private List<FunFacts> funFacts;
 
-    public CharacterEntity(String name, List<String> episodes) {
-        this.name = name;
-        this.episodes = episodes.stream().map(EpisodeEntity::new).toList();
+    public void addFunFact(String funFact) {
+        if (this.funFacts == null) {
+            this.funFacts = funFact;
+        } else {
+            this.funFacts = funFacts.concat(SEPARATOR_CONCAT_FUNFACT).concat(funFact);
+        }
     }
 }

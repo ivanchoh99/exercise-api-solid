@@ -9,5 +9,6 @@ import java.util.UUID;
 public class Character {
     private UUID uuid;
     private String name;
-    private List<Episode> episodes;
+    private Set<Integer> episodes;
+    private List<String> funFacts;
 }

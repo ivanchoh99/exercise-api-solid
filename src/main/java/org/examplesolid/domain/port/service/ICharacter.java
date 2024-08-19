@@ -11,6 +11,10 @@ public interface ICharacterService {
     List<CharacterSimple> getCharactersFromApiAndSort();
     List<Character> getAllCharactersFromDBInPage(Pageable pageable);
     List<CharacterEntity> getAllCharactersFromDB();
-    Character getCharacterFromDB(String name);
-    List<CharacterEntity> saveCharactersFromApi();
+
+    Character getCharacterFromDB(String name) throws NameNotFoundException;
+
+    void saveCharactersFromApi();
+
+    Character addFunFact(String nameCharacter, String funFact) throws NameNotFoundException;
 }

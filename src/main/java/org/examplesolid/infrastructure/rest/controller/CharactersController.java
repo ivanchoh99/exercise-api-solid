@@ -51,4 +51,10 @@ public class CharactersController {
         service.saveCharactersFromApi();
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/add/fun-fact")
+    public ResponseEntity<Character> persistNewFunFact(@RequestBody NewFunFactRequest newFunFact) throws NameNotFoundException {
+        Character character = service.addFunFact(newFunFact.nameCharacter(), newFunFact.funFact());
+        return ResponseEntity.ok(character);
+    }
 }
