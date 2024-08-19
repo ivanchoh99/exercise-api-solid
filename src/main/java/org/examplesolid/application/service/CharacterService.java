@@ -12,6 +12,7 @@ import org.examplesolid.domain.port.repository.ICharacterRepository;
 import org.examplesolid.domain.port.service.ICharacter;
 import org.examplesolid.domain.port.service.IFunFact;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,8 @@ public class CharacterService implements ICharacter {
 
     @Override
     public List<Character> getAllCharactersFromDB(Pageable pageable) {
-        return characterRepository.findAll(pageable).stream().map(mapper::entityToDomain).toList();
+        Page<CharacterEntity> entities = characterRepository.findAll(pageable);
+        return entities.stream().map(mapper::entityToDomain).toList();
     }
 
     @Override
