@@ -46,9 +46,6 @@ public class CharacterMapper implements ICharacterMapper {
 
     @Override
     public CharacterEntity apiToEntity(CharacterAPI characterAPI) {
-        mapper.typeMap(CharacterAPI.class, CharacterEntity.class).addMappings(mapping -> {
-            mapping.map(CharacterAPI::episode, (destination, value) -> destination.setEpisodes((List<String>) value));
-        }).map(characterAPI);
         Set<EpisodeEntity> episodes = characterAPI.episode().stream()
                 .map(episode -> Integer.parseInt(episode.replaceAll("https://rickandmortyapi.com/api/episode/", "")))
                 .map(EpisodeEntity::new)
