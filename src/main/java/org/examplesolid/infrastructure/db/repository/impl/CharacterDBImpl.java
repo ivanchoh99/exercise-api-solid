@@ -1,21 +1,23 @@
-package org.examplesolid.infrastructure.db.repository;
+package org.examplesolid.infrastructure.db.repository.impl;
 
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.port.repository.ICharacterRepository;
+import org.examplesolid.infrastructure.db.repository.CharacterJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import javax.naming.NameNotFoundException;
 import java.util.List;
 
 @Repository
-public class CharacterMySQL implements ICharacterRepository {
+public class CharacterDBImpl implements ICharacterRepository {
 
     private final CharacterJpaRepository repository;
 
     @Autowired
-    public CharacterMySQL(CharacterJpaRepository repository) {
+    public CharacterDBImpl(CharacterJpaRepository repository) {
         this.repository = repository;
     }
 
@@ -40,7 +42,7 @@ public class CharacterMySQL implements ICharacterRepository {
     }
 
     @Override
-    public CharacterEntity findByName(String name) {
-        return repository.findByName(name);
+    public CharacterEntity findByName(String name) throws NameNotFoundException {
+        return repository.findByName(name).orElseThrow(() -> new NameNotFoundException("character with name" + name + "not found"));
     }
 }

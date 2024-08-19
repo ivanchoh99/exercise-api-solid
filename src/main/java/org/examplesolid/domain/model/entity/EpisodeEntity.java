@@ -3,21 +3,25 @@ package org.examplesolid.domain.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
+import lombok.Setter;
 
 @Entity
-@Table(name = "episodes")
+@Setter
 @Getter
+@Table(name = "character_episodes")
 @NoArgsConstructor
 public class EpisodeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID uuid;
-    @Column(unique = true, name = "number")
-    private Integer number;
+    @Column(name = "number", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "character_uuid")
+    private CharacterEntity character;
+    @Column(name = "number_episode")
+    private Integer numberEpisode;
 
-    public EpisodeEntity(String number){
-        this.number = Integer.getInteger(number);
+    public EpisodeEntity(Integer numberEpisode) {
+        this.numberEpisode = numberEpisode;
     }
 }

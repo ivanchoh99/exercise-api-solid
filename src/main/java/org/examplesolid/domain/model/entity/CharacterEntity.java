@@ -1,40 +1,29 @@
 package org.examplesolid.domain.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+
+import static org.examplesolid.domain.util.Constants.SEPARATOR_CONCAT_FUNFACT;
 
 @Entity
 @Table(name = "character_tv")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class CharacterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 100)
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "CHARACTER_EPISODE",
-            joinColumns = @JoinColumn(name = "CHARACTER_UUID", referencedColumnName = "uuid"),
-            inverseJoinColumns = @JoinColumn(name = "EPISODE_UUID", referencedColumnName = "uuid")
-    )
-    private List<EpisodeEntity> episodes;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "CHARACTER_FUNFACTS",
-            joinColumns = @JoinColumn(name = "CHARACTER_UUID", referencedColumnName = "uuid"),
-            inverseJoinColumns = @JoinColumn(name = "FUN_FACTS_UUID", referencedColumnName = "uuid")
-    )
-    private List<FunFacts> funFacts;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "character", cascade = CascadeType.ALL)
+    private Set<EpisodeEntity> episodes;
+    private String funFacts;
 
     public void addFunFact(String funFact) {
         if (this.funFacts == null) {
