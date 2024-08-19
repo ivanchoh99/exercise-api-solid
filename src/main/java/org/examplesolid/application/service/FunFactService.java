@@ -14,9 +14,7 @@ import static org.examplesolid.domain.util.Constants.SEPARATOR_CONCAT_FUNFACT;
 public class FunFactService implements IFunFact {
     @Override
     public List<String> stringToList(String funFactsInString) {
-        if (funFactsInString == null) {
-            return Collections.emptyList();
-        }
+        if (funFactsInString == null) return Collections.emptyList();
         return Arrays.stream(funFactsInString.split(SEPARATOR_CONCAT_FUNFACT)).toList();
     }
 
