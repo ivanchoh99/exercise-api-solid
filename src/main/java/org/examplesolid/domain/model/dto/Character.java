@@ -1,13 +1,14 @@
 package org.examplesolid.domain.model.dto;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
-@Getter
+@Data
+@AllArgsConstructor
 public class Character {
-    private UUID uuid;
     private String name;
     private Set<Integer> episodes;
     private List<String> funFacts;

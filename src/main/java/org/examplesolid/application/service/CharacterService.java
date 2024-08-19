@@ -9,56 +9,62 @@ import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.port.api.IRickAndMortyAPI;
 import org.examplesolid.domain.port.mapper.ICharacterMapper;
 import org.examplesolid.domain.port.repository.ICharacterRepository;
-import org.examplesolid.domain.port.service.ICharacterService;
+import org.examplesolid.domain.port.service.ICharacter;
+import org.examplesolid.domain.port.service.IFunFact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.naming.NameNotFoundException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
 @Service
-public class CharacterService implements ICharacterService {
+public class CharacterService implements ICharacter {
 
     private final IRickAndMortyAPI clientAPI;
-    private final ICharacterRepository repository;
-    private final ICharacterMapper characterMapper;
+    private final ICharacterRepository characterRepository;
+    private final ICharacterMapper mapper;
 
     @Autowired
-    public CharacterService(IRickAndMortyAPI clientAPI, ICharacterRepository repository, ICharacterMapper characterMapper) {
+    public CharacterService(IRickAndMortyAPI clientAPI, ICharacterRepository characterRepository, ICharacterMapper mapper, IFunFact funFactService) {
         this.clientAPI = clientAPI;
-        this.repository = repository;
-        this.characterMapper = characterMapper;
+        this.characterRepository = characterRepository;
+        this.mapper = mapper;
     }
 
     @Override
     public List<CharacterSimple> getCharactersFromApiAndSort() {
         CharacterResponse response = clientAPI.getRickAndMortyCharacters();
         if (response.results().isEmpty()) return Collections.emptyList();
-        return response.results().stream().map(characterMapper::apiToSimple).sorted(Comparator.comparing(CharacterSimple::getName)).toList();
+        return response.results().stream().map(mapper::apiToSimple).sorted(Comparator.comparing(CharacterSimple::getName)).toList();
     }
 
     @Override
-    public List<Character> getAllCharactersFromDBInPage(Pageable pageable) {
-        return repository.findAll(pageable).stream().map(characterMapper::entityToDomain).toList();
+    public List<Character> getAllCharactersFromDB(Pageable pageable) {
+        return characterRepository.findAll(pageable).stream().map(mapper::entityToDomain).toList();
     }
 
     @Override
-    public List<CharacterEntity> getAllCharactersFromDB() {
-        return repository.findAll();
+    public Character getCharacterFromDB(String name) throws NameNotFoundException {
+        CharacterEntity entity = characterRepository.findByName(name);
+        return mapper.entityToDomain(entity);
     }
 
     @Override
-    public Character getCharacterFromDB(String name) {
-        return characterMapper.entityToDomain(repository.findByName(name));
-    }
-
-    @Override
-    public List<CharacterEntity> saveCharactersFromApi() {
+    public void saveCharactersFromApi() {
         List<CharacterAPI> characterAPIs = clientAPI.getRickAndMortyCharacters().results();
-        List<CharacterEntity> characterEntities = characterAPIs.stream().map(characterMapper::apiToEntity).toList();
-        return repository.saveAll(characterEntities);
+        List<CharacterEntity> characterEntities = characterAPIs.stream().map(mapper::apiToEntity).toList();
+        characterRepository.saveAll(characterEntities);
+    }
+
+    @Override
+    public Character addFunFact(String nameCharacter, String funFact) throws NameNotFoundException {
+        CharacterEntity entity = characterRepository.findByName(nameCharacter);
+        entity.addFunFact(funFact);
+        CharacterEntity persisted = characterRepository.save(entity);
+        return mapper.entityToDomain(persisted);
     }
 }
