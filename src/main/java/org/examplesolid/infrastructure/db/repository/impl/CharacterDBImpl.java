@@ -1,5 +1,6 @@
 package org.examplesolid.infrastructure.db.repository.impl;
 
+import jakarta.transaction.Transactional;
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.port.repository.ICharacterRepository;
 import org.examplesolid.infrastructure.db.repository.CharacterJpaRepository;
@@ -22,26 +23,25 @@ public class CharacterDBImpl implements ICharacterRepository {
     }
 
     @Override
+    @Transactional
     public List<CharacterEntity> saveAll(List<CharacterEntity> characters) {
         return repository.saveAll(characters);
     }
 
     @Override
+    @Transactional
     public CharacterEntity save(CharacterEntity character) {
         return repository.save(character);
     }
 
     @Override
+    @Transactional
     public Page<CharacterEntity> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
     @Override
-    public List<CharacterEntity> findAll() {
-        return repository.findAll();
-    }
-
-    @Override
+    @Transactional
     public CharacterEntity findByName(String name) throws NameNotFoundException {
         return repository.findByName(name).orElseThrow(() -> new NameNotFoundException("character with name" + name + "not found"));
     }
