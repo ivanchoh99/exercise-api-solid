@@ -11,9 +11,10 @@ import java.util.List;
 @Repository
 public interface ICharacterRepository {
     List<CharacterEntity> saveAll(List<CharacterEntity> characters);
+
     CharacterEntity save(CharacterEntity character);
+
     Page<CharacterEntity> findAll(Pageable pageable);
-    List<CharacterEntity> findAll();
 
     CharacterEntity findByName(String name) throws NameNotFoundException;
 }
