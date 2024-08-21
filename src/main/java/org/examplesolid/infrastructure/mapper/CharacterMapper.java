@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,7 +30,10 @@ public class CharacterMapper implements ICharacterMapper {
 
     @Override
     public Character entityToDomain(CharacterEntity characterEntity) {
-        Set<Integer> episodes = characterEntity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
+        Set<Integer> episodes = Collections.emptySet();
+        if (characterEntity.getEpisodes() != null) {
+            episodes = characterEntity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
+        }
         List<String> funFacts = funFactService.stringToList(characterEntity.getFunFacts());
         return new Character(characterEntity.getName(), episodes, funFacts);
     }
@@ -46,10 +50,7 @@ public class CharacterMapper implements ICharacterMapper {
 
     @Override
     public CharacterEntity apiToEntity(CharacterAPI characterAPI) {
-        Set<EpisodeEntity> episodes = characterAPI.episode().stream()
-                .map(episode -> Integer.parseInt(episode.replaceAll("https://rickandmortyapi.com/api/episode/", "")))
-                .map(EpisodeEntity::new)
-                .collect(Collectors.toSet());
+        Set<EpisodeEntity> episodes = characterAPI.episode().stream().map(episode -> Integer.parseInt(episode.replaceAll("https://rickandmortyapi.com/api/episode/", ""))).map(EpisodeEntity::new).collect(Collectors.toSet());
         CharacterEntity character = mapper.map(characterAPI, CharacterEntity.class);
         episodes.forEach(episode -> episode.setCharacter(character));
         character.setEpisodes(episodes);
