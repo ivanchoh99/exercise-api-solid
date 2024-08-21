@@ -13,8 +13,4 @@ public class CharacterSimple {
     private String species;
     private String gender;
     private String locationName;
-
-    public CharacterSimple(String name) {
-        this.name = name;
-    }
 }
