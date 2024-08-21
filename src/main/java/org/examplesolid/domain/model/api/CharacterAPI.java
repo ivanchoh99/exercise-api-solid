@@ -12,4 +12,8 @@ public record CharacterAPI(int id,
                            String image,
                            List<String> episode,
                            String url, String created) {
+
+    public CharacterAPI(String name) {
+        this(0, name, null, null, null, null, null, null, null, null, null);
+    }
 }

@@ -24,4 +24,9 @@ public class EpisodeEntity {
     public EpisodeEntity(Integer numberEpisode) {
         this.numberEpisode = numberEpisode;
     }
+
+    public EpisodeEntity(Integer numberEpisode, CharacterEntity character) {
+        this.numberEpisode = numberEpisode;
+        this.character = character;
+    }
 }

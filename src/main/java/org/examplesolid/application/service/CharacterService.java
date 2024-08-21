@@ -10,7 +10,6 @@ import org.examplesolid.domain.port.api.IRickAndMortyAPI;
 import org.examplesolid.domain.port.mapper.ICharacterMapper;
 import org.examplesolid.domain.port.repository.ICharacterRepository;
 import org.examplesolid.domain.port.service.ICharacter;
-import org.examplesolid.domain.port.service.IFunFact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +29,7 @@ public class CharacterService implements ICharacter {
     private final ICharacterMapper mapper;
 
     @Autowired
-    public CharacterService(IRickAndMortyAPI clientAPI, ICharacterRepository characterRepository, ICharacterMapper mapper, IFunFact funFactService) {
+    public CharacterService(IRickAndMortyAPI clientAPI, ICharacterRepository characterRepository, ICharacterMapper mapper) {
         this.clientAPI = clientAPI;
         this.characterRepository = characterRepository;
         this.mapper = mapper;
