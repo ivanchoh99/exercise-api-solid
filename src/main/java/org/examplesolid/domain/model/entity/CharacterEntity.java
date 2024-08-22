@@ -44,20 +44,6 @@ public class CharacterEntity {
     public CharacterEntity(String name, String funFacts, Set<Integer> episodes) {
         this.name = name;
         this.funFacts = funFacts;
-        this.episodes = new HashSet<>();
-        for (Integer episode : episodes) {
-            EpisodeEntity episodeEntity = new EpisodeEntity(episode, this);
-            this.episodes.add(episodeEntity);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "CharacterEntity{" +
-                "uuid=" + uuid +
-                ", name='" + name + '\'' +
-                ", episodes=" + episodes +
-                ", funFacts='" + funFacts + '\'' +
-                '}';
+        this.episodes = episodes.stream().map(episode -> new EpisodeEntity(episode, this)).collect(Collectors.toSet());
     }
 }
