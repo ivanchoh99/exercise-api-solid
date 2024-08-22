@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.examplesolid.domain.util.Constants.SEPARATOR_CONCAT_FUNFACT;
+import static org.examplesolid.application.util.constant.Constants.SEPARATOR_CONCAT_FACT;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -51,7 +51,7 @@ class CharacterServiceTest {
         String nameCharacter = "Rick Sanchez";
         String funFact1 = "Abuelo";
         String funFact2 = "Cientifico";
-        String expectedFunFacts = funFact1 + SEPARATOR_CONCAT_FUNFACT + funFact2;
+        String expectedFunFacts = funFact1 + SEPARATOR_CONCAT_FACT + funFact2;
         CharacterEntity entity = new CharacterEntity(uuid, nameCharacter, funFact1);
         CharacterEntity persistedEntity = new CharacterEntity(uuid, nameCharacter, expectedFunFacts);
         when(repository.findByName(nameCharacter)).thenReturn(entity);
