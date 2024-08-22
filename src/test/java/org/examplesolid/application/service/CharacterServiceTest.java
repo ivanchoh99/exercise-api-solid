@@ -65,8 +65,8 @@ class CharacterServiceTest {
     @Test
     void consumingTheApi_whenGetCharacterResponseFromApi_thenSortByName() {
         //* Arrange
-        CharacterAPI characterAPI1 = new CharacterAPI("zuñiga");
-        CharacterAPI characterAPI2 = new CharacterAPI("Andres");
+        CharacterAPI characterAPI1 = CharacterAPI.builder().name("Zuñiga").build();
+        CharacterAPI characterAPI2 = CharacterAPI.builder().name("Andres").build();
         CharacterResponse response = new CharacterResponse(null, List.of(characterAPI1, characterAPI2));
         when(api.getRickAndMortyCharacters()).thenReturn(response);
         //* Act

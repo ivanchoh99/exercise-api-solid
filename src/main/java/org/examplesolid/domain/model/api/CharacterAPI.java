@@ -1,7 +1,10 @@
 package org.examplesolid.domain.model.api;
 
+import lombok.Builder;
+
 import java.util.List;
 
+@Builder
 public record CharacterAPI(int id,
                            String name,
                            String status,
@@ -12,8 +15,4 @@ public record CharacterAPI(int id,
                            String image,
                            List<String> episode,
                            String url, String created) {
-
-    public CharacterAPI(String name) {
-        this(0, name, null, null, null, null, null, null, null, null, null);
-    }
 }
