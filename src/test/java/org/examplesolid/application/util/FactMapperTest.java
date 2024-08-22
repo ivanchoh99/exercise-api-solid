@@ -1,4 +1,4 @@
-package org.examplesolid.application.service;
+package org.examplesolid.application.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -7,25 +7,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.examplesolid.domain.util.Constants.SEPARATOR_CONCAT_FUNFACT;
+import static org.examplesolid.application.util.constant.Constants.SEPARATOR_CONCAT_FACT;
 
 @ExtendWith(MockitoExtension.class)
-class FunFactServiceTest {
-
-    private final FunFactService service;
-
-    private FunFactServiceTest() {
-        service = new FunFactService();
-    }
-
+class FactFactUtilityTest {
     @Test
     void whenGetAStringOfFunFacts_thenReturnAList() {
         //* Arrange
         String funFact1 = "funFact1";
         String funFact2 = "funFact2";
-        String funFactsString = funFact1 + SEPARATOR_CONCAT_FUNFACT + funFact2;
+        String funFactsString = funFact1 + SEPARATOR_CONCAT_FACT + funFact2;
         //* Act
-        List<String> funFactsList = service.stringToList(funFactsString);
+        List<String> funFactsList = Factutility.stringToList(funFactsString);
         //* Assert
         assertThat(funFactsList)
                 .as("Validate that list is correctly and complete")
@@ -41,7 +34,7 @@ class FunFactServiceTest {
         //* Arrange
         String funFactsString = null;
         //* Act
-        List<String> funFactsList = service.stringToList(funFactsString);
+        List<String> funFactsList = Factutility.stringToList(funFactsString);
         //* Assert
         assertThat(funFactsList)
                 .as("Validate that list is empty")
@@ -55,7 +48,7 @@ class FunFactServiceTest {
         //* Arrange
         String funFactsString = "     ";
         //* Act
-        List<String> funFactsList = service.stringToList(funFactsString);
+        List<String> funFactsList = Factutility.stringToList(funFactsString);
         //* Assert
         assertThat(funFactsList)
                 .as("Validate that list is empty")
@@ -69,7 +62,7 @@ class FunFactServiceTest {
         //* Arrange
         String funFactsString = "";
         //* Act
-        List<String> funFactsList = service.stringToList(funFactsString);
+        List<String> funFactsList = Factutility.stringToList(funFactsString);
         //* Assert
         assertThat(funFactsList)
                 .as("Validate that list is empty")
@@ -84,9 +77,9 @@ class FunFactServiceTest {
         String funFact1 = "funFact1";
         String funFact2 = "funFact2";
         List<String> funFactsList = List.of(funFact1, funFact2);
-        String expectedFunFactsString = funFact1 + SEPARATOR_CONCAT_FUNFACT + funFact2;
+        String expectedFunFactsString = funFact1 + SEPARATOR_CONCAT_FACT + funFact2;
         //* Act
-        String funFactsString = service.listToString(funFactsList);
+        String funFactsString = Factutility.listToString(funFactsList);
         //* Assert
         assertThat(funFactsString)
                 .as("validate the correctly formating of fun facts in the string")
@@ -99,7 +92,7 @@ class FunFactServiceTest {
         //* Arrange
         List<String> funFactsList = null;
         //* Act
-        String funFactsString = service.listToString(funFactsList);
+        String funFactsString = Factutility.listToString(funFactsList);
         //* Assert
         assertThat(funFactsString)
                 .as("Get a empty String")
@@ -112,7 +105,7 @@ class FunFactServiceTest {
         //* Arrange
         List<String> funFactsList = List.of();
         //* Act
-        String funFactsString = service.listToString(funFactsList);
+        String funFactsString = Factutility.listToString(funFactsList);
         //* Assert
         assertThat(funFactsString)
                 .as("Get a empty String")

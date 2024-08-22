@@ -40,7 +40,7 @@ class CharacterServiceTest {
         openMocks(this);
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.registerModule(new RecordModule());
-        CharacterMapper mapper = new CharacterMapper(modelMapper, new FunFactService());
+        CharacterMapper mapper = new CharacterMapper(modelMapper);
         service = new CharacterService(api, repository, mapper);
     }
 

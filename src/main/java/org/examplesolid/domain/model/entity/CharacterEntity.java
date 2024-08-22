@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.examplesolid.application.util.Factutility;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
-import static org.examplesolid.domain.util.Constants.SEPARATOR_CONCAT_FUNFACT;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "character_tv", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
@@ -25,14 +24,10 @@ public class CharacterEntity {
     @Setter
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "character", cascade = CascadeType.ALL)
     private Set<EpisodeEntity> episodes;
-    private String funFacts;
+    private String funFacts = "";
 
     public void addFunFact(String funFact) {
-        if (this.funFacts == null) {
-            this.funFacts = funFact;
-        } else {
-            this.funFacts = funFacts.concat(SEPARATOR_CONCAT_FUNFACT).concat(funFact);
-        }
+        this.funFacts = Factutility.addFactToString(this.funFacts, funFact);
     }
 
     public CharacterEntity(UUID uuid, String name, String funFact) {

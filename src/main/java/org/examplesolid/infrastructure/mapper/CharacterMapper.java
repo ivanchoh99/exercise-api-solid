@@ -1,12 +1,12 @@
 package org.examplesolid.infrastructure.mapper;
 
+import org.examplesolid.application.util.Factutility;
 import org.examplesolid.domain.model.api.CharacterAPI;
 import org.examplesolid.domain.model.dto.Character;
 import org.examplesolid.domain.model.dto.CharacterSimple;
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.model.entity.EpisodeEntity;
 import org.examplesolid.domain.port.mapper.ICharacterMapper;
-import org.examplesolid.domain.port.service.IFunFact;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,12 +20,10 @@ import java.util.stream.Collectors;
 public class CharacterMapper implements ICharacterMapper {
 
     private final ModelMapper mapper;
-    private final IFunFact funFactService;
 
     @Autowired
-    public CharacterMapper(ModelMapper mapper, IFunFact funFactService) {
+    public CharacterMapper(ModelMapper mapper) {
         this.mapper = mapper;
-        this.funFactService = funFactService;
     }
 
     @Override
@@ -34,7 +32,7 @@ public class CharacterMapper implements ICharacterMapper {
         if (characterEntity.getEpisodes() != null) {
             episodes = characterEntity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
         }
-        List<String> funFacts = funFactService.stringToList(characterEntity.getFunFacts());
+        List<String> funFacts = Factutility.stringToList(characterEntity.getFunFacts());
         return new Character(characterEntity.getName(), episodes, funFacts);
     }
 
