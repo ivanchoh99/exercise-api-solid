@@ -5,13 +5,13 @@ import org.examplesolid.domain.model.api.CharacterResponse;
 import org.examplesolid.domain.model.dto.Character;
 import org.examplesolid.domain.model.dto.CharacterSimple;
 import org.examplesolid.domain.model.entity.CharacterEntity;
-import org.examplesolid.domain.port.api.IRickAndMortyAPI;
+import org.examplesolid.infrastructure.api.RickAndMortyAPIClient;
 import org.examplesolid.infrastructure.db.repository.impl.CharacterDBImpl;
 import org.examplesolid.infrastructure.mapper.CharacterMapper;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.record.RecordModule;
@@ -23,21 +23,30 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.examplesolid.application.util.constant.Constants.SEPARATOR_CONCAT_FACT;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
 
 @ExtendWith(MockitoExtension.class)
 class CharacterServiceTest {
 
-    @Mock
-    private IRickAndMortyAPI api;
-    @Mock
-    private CharacterDBImpl repository;
-    private CharacterService service;
+    private static RickAndMortyAPIClient api;
+    private static CharacterDBImpl repository;
+    private static CharacterService service;
 
-    @BeforeEach
-    void setUp() {
-        openMocks(this);
+//    public CharacterServiceTest() {
+//        api = mock(RickAndMortyAPIClient.class);
+//        repository = mock(CharacterDBImpl.class);
+//        ModelMapper modelMapper = new ModelMapper();
+//        modelMapper.registerModule(new RecordModule());
+//        CharacterMapper mapper = new CharacterMapper(modelMapper);
+//        service = new CharacterService(api,repository, mapper);
+//    }
+
+    @BeforeAll
+    static void setUpTestClass() throws Exception {
+        MockitoAnnotations.openMocks(CharacterServiceTest.class).close();
+        api = mock(RickAndMortyAPIClient.class);
+        repository = mock(CharacterDBImpl.class);
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.registerModule(new RecordModule());
         CharacterMapper mapper = new CharacterMapper(modelMapper);
@@ -72,10 +81,7 @@ class CharacterServiceTest {
         //* Act
         List<CharacterSimple> characterSimples = service.getCharactersFromApiAndSort();
         //* Assert
-        assertThat(characterSimples)
-                .as("Characters Simples are order alphabetically")
-                .withFailMessage("The Characters Simples are not order alphabetically")
-                .isSortedAccordingTo(Comparator.comparing(CharacterSimple::getName));
+        assertThat(characterSimples).as("Characters Simples are order alphabetically").withFailMessage("The Characters Simples are not order alphabetically").isSortedAccordingTo(Comparator.comparing(CharacterSimple::getName));
     }
 
     @Test
@@ -86,9 +92,6 @@ class CharacterServiceTest {
         //* Act
         List<CharacterSimple> characterSimples = service.getCharactersFromApiAndSort();
         //* Assert
-        assertThat(characterSimples)
-                .as("Validate that getCharactersFromApiAndSort can return empty list")
-                .withFailMessage("The Characters Simples list is not empty or aren't instance")
-                .isEmpty();
+        assertThat(characterSimples).as("Validate that getCharactersFromApiAndSort can return empty list").withFailMessage("The Characters Simples list is not empty or aren't instance").isEmpty();
     }
 }
