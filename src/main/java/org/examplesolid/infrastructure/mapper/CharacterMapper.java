@@ -1,6 +1,6 @@
 package org.examplesolid.infrastructure.mapper;
 
-import org.examplesolid.application.util.Factutility;
+import org.examplesolid.application.util.StringUtility;
 import org.examplesolid.domain.model.api.CharacterAPI;
 import org.examplesolid.domain.model.dto.Character;
 import org.examplesolid.domain.model.dto.CharacterSimple;
@@ -32,7 +32,7 @@ public class CharacterMapper implements ICharacterMapper {
         if (characterEntity.getEpisodes() != null) {
             episodes = characterEntity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
         }
-        List<String> funFacts = Factutility.stringToList(characterEntity.getFunFacts());
+        List<String> funFacts = StringUtility.stringToList(characterEntity.getFunFacts());
         return new Character(characterEntity.getName(), episodes, funFacts);
     }
 

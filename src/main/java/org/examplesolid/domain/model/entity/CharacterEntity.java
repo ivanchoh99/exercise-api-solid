@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.examplesolid.application.util.Factutility;
+import org.examplesolid.application.util.StringUtility;
 
 import java.util.Set;
 import java.util.UUID;
@@ -27,7 +27,7 @@ public class CharacterEntity {
     private String funFacts = "";
 
     public void addFunFact(String funFact) {
-        this.funFacts = Factutility.addFactToString(this.funFacts, funFact);
+        this.funFacts = StringUtility.addFactToString(this.funFacts, funFact);
     }
 
     public CharacterEntity(UUID uuid, String name, String funFact) {

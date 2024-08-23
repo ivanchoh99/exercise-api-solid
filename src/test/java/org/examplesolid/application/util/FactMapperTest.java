@@ -18,7 +18,7 @@ class FactFactUtilityTest {
         String funFact2 = "funFact2";
         String funFactsString = funFact1 + SEPARATOR_CONCAT_FACT + funFact2;
         //* Act
-        List<String> funFactsList = Factutility.stringToList(funFactsString);
+        List<String> funFactsList = StringUtility.stringToList(funFactsString);
         //* Assert
         assertThat(funFactsList)
                 .as("Validate that list is correctly and complete")
@@ -34,7 +34,7 @@ class FactFactUtilityTest {
         //* Arrange
         String funFactsString = null;
         //* Act
-        List<String> funFactsList = Factutility.stringToList(funFactsString);
+        List<String> funFactsList = StringUtility.stringToList(funFactsString);
         //* Assert
         assertThat(funFactsList)
                 .as("Validate that list is empty")
@@ -48,7 +48,7 @@ class FactFactUtilityTest {
         //* Arrange
         String funFactsString = "     ";
         //* Act
-        List<String> funFactsList = Factutility.stringToList(funFactsString);
+        List<String> funFactsList = StringUtility.stringToList(funFactsString);
         //* Assert
         assertThat(funFactsList)
                 .as("Validate that list is empty")
@@ -62,7 +62,7 @@ class FactFactUtilityTest {
         //* Arrange
         String funFactsString = "";
         //* Act
-        List<String> funFactsList = Factutility.stringToList(funFactsString);
+        List<String> funFactsList = StringUtility.stringToList(funFactsString);
         //* Assert
         assertThat(funFactsList)
                 .as("Validate that list is empty")
@@ -79,7 +79,7 @@ class FactFactUtilityTest {
         List<String> funFactsList = List.of(funFact1, funFact2);
         String expectedFunFactsString = funFact1 + SEPARATOR_CONCAT_FACT + funFact2;
         //* Act
-        String funFactsString = Factutility.listToString(funFactsList);
+        String funFactsString = StringUtility.listToString(funFactsList);
         //* Assert
         assertThat(funFactsString)
                 .as("validate the correctly formating of fun facts in the string")
@@ -92,7 +92,7 @@ class FactFactUtilityTest {
         //* Arrange
         List<String> funFactsList = null;
         //* Act
-        String funFactsString = Factutility.listToString(funFactsList);
+        String funFactsString = StringUtility.listToString(funFactsList);
         //* Assert
         assertThat(funFactsString)
                 .as("Get a empty String")
@@ -105,7 +105,7 @@ class FactFactUtilityTest {
         //* Arrange
         List<String> funFactsList = List.of();
         //* Act
-        String funFactsString = Factutility.listToString(funFactsList);
+        String funFactsString = StringUtility.listToString(funFactsList);
         //* Assert
         assertThat(funFactsString)
                 .as("Get a empty String")

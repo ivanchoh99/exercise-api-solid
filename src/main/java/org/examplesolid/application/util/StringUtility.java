@@ -6,7 +6,7 @@ import java.util.List;
 
 import static org.examplesolid.application.util.constant.Constants.SEPARATOR_CONCAT_FACT;
 
-public class Factutility {
+public class StringUtility {
 
     public static List<String> stringToList(String funFactsInString) {
         if (funFactsInString == null || funFactsInString.isBlank() || funFactsInString.isEmpty()) return Collections.emptyList();
