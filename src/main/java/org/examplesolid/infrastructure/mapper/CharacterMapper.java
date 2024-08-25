@@ -3,7 +3,7 @@ package org.examplesolid.infrastructure.mapper;
 import org.examplesolid.application.util.StringUtility;
 import org.examplesolid.domain.model.api.CharacterAPI;
 import org.examplesolid.domain.model.dto.Character;
-import org.examplesolid.domain.model.dto.CharacterSimple;
+import org.examplesolid.domain.model.dto.CharacterBaseInformation;
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.model.entity.EpisodeEntity;
 import org.examplesolid.domain.port.mapper.ICharacterMapper;
@@ -28,10 +28,8 @@ public class CharacterMapper implements ICharacterMapper {
 
     @Override
     public Character entityToDomain(CharacterEntity characterEntity) {
-        Set<Integer> episodes = Collections.emptySet();
-        if (characterEntity.getEpisodes() != null) {
-            episodes = characterEntity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
-        }
+        Set<Integer> episodes = characterEntity.getEpisodes() == null ?
+                Collections.emptySet() : characterEntity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
         List<String> funFacts = StringUtility.stringToList(characterEntity.getFunFacts());
         return new Character(characterEntity.getName(), episodes, funFacts);
     }
@@ -42,8 +40,8 @@ public class CharacterMapper implements ICharacterMapper {
     }
 
     @Override
-    public CharacterSimple apiToSimple(CharacterAPI characterAPI) {
-        return mapper.map(characterAPI, CharacterSimple.class);
+    public CharacterBaseInformation apiToSimple(CharacterAPI characterAPI) {
+        return mapper.map(characterAPI, CharacterBaseInformation.class);
     }
 
     @Override

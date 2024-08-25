@@ -7,7 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.examplesolid.application.util.constant.Constants.SEPARATOR_CONCAT_FACT;
+import static org.examplesolid.application.util.Constants.SEPARATOR_CONCAT_FACT;
 
 @ExtendWith(MockitoExtension.class)
 class FactFactUtilityTest {

@@ -1,10 +1,10 @@
-package org.examplesolid.infrastructure.rest.controller;
+package org.examplesolid.infrastructure.endpoints.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.examplesolid.domain.model.dto.Character;
-import org.examplesolid.domain.model.dto.CharacterSimple;
+import org.examplesolid.domain.model.dto.CharacterBaseInformation;
 import org.examplesolid.domain.port.service.ICharacter;
-import org.examplesolid.infrastructure.rest.dto.request.NewFunFactRequest;
+import org.examplesolid.infrastructure.endpoints.dto.request.NewFunFactRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +27,7 @@ public class CharactersController {
     }
 
     @GetMapping("/characters")
-    public ResponseEntity<List<CharacterSimple>> getCharacters() {
+    public ResponseEntity<List<CharacterBaseInformation>> getCharacters() {
         return ResponseEntity.ok(service.getCharactersFromApiAndSort());
     }
 

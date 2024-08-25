@@ -27,7 +27,7 @@ public class CharacterEntity {
     private String funFacts = "";
 
     public void addFunFact(String funFact) {
-        this.funFacts = StringUtility.addFactToString(this.funFacts, funFact);
+        this.funFacts = StringUtility.joinWithSeparator(this.funFacts, funFact);
     }
 
     public CharacterEntity(UUID uuid, String name, String funFact) {

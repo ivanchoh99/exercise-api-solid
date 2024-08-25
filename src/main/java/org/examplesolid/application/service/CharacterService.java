@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.examplesolid.domain.model.api.CharacterAPI;
 import org.examplesolid.domain.model.api.CharacterResponse;
 import org.examplesolid.domain.model.dto.Character;
-import org.examplesolid.domain.model.dto.CharacterSimple;
+import org.examplesolid.domain.model.dto.CharacterBaseInformation;
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.port.api.IRickAndMortyAPI;
 import org.examplesolid.domain.port.mapper.ICharacterMapper;
@@ -36,10 +36,10 @@ public class CharacterService implements ICharacter {
     }
 
     @Override
-    public List<CharacterSimple> getCharactersFromApiAndSort() {
+    public List<CharacterBaseInformation> getCharactersFromApiAndSort() {
         CharacterResponse response = clientAPI.getRickAndMortyCharacters();
         if (response.results().isEmpty()) return Collections.emptyList();
-        return response.results().stream().map(mapper::apiToSimple).sorted(Comparator.comparing(CharacterSimple::getName)).toList();
+        return response.results().stream().map(mapper::apiToSimple).sorted(Comparator.comparing(CharacterBaseInformation::getName)).toList();
     }
 
     @Override

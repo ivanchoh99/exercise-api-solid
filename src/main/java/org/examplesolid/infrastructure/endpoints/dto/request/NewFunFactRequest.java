@@ -1,4 +1,4 @@
-package org.examplesolid.infrastructure.rest.dto.request;
+package org.examplesolid.infrastructure.endpoints.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

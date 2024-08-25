@@ -3,7 +3,7 @@ package org.examplesolid.application.service;
 import org.examplesolid.domain.model.api.CharacterAPI;
 import org.examplesolid.domain.model.api.CharacterResponse;
 import org.examplesolid.domain.model.dto.Character;
-import org.examplesolid.domain.model.dto.CharacterSimple;
+import org.examplesolid.domain.model.dto.CharacterBaseInformation;
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.infrastructure.api.RickAndMortyAPIClient;
 import org.examplesolid.infrastructure.db.repository.impl.CharacterDBImpl;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.examplesolid.application.util.constant.Constants.SEPARATOR_CONCAT_FACT;
+import static org.examplesolid.application.util.Constants.SEPARATOR_CONCAT_FACT;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -79,9 +79,9 @@ class CharacterServiceTest {
         CharacterResponse response = new CharacterResponse(null, List.of(characterAPI1, characterAPI2));
         when(api.getRickAndMortyCharacters()).thenReturn(response);
         //* Act
-        List<CharacterSimple> characterSimples = service.getCharactersFromApiAndSort();
+        List<CharacterBaseInformation> characterSimples = service.getCharactersFromApiAndSort();
         //* Assert
-        assertThat(characterSimples).as("Characters Simples are order alphabetically").withFailMessage("The Characters Simples are not order alphabetically").isSortedAccordingTo(Comparator.comparing(CharacterSimple::getName));
+        assertThat(characterSimples).as("Characters Simples are order alphabetically").withFailMessage("The Characters Simples are not order alphabetically").isSortedAccordingTo(Comparator.comparing(CharacterBaseInformation::getName));
     }
 
     @Test
@@ -90,7 +90,7 @@ class CharacterServiceTest {
         CharacterResponse response = new CharacterResponse(null, List.of());
         when(api.getRickAndMortyCharacters()).thenReturn(response);
         //* Act
-        List<CharacterSimple> characterSimples = service.getCharactersFromApiAndSort();
+        List<CharacterBaseInformation> characterSimples = service.getCharactersFromApiAndSort();
         //* Assert
         assertThat(characterSimples).as("Validate that getCharactersFromApiAndSort can return empty list").withFailMessage("The Characters Simples list is not empty or aren't instance").isEmpty();
     }

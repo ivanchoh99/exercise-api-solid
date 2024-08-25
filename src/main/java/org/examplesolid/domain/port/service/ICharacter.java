@@ -1,14 +1,14 @@
 package org.examplesolid.domain.port.service;
 
 import org.examplesolid.domain.model.dto.Character;
-import org.examplesolid.domain.model.dto.CharacterSimple;
+import org.examplesolid.domain.model.dto.CharacterBaseInformation;
 import org.springframework.data.domain.Pageable;
 
 import javax.naming.NameNotFoundException;
 import java.util.List;
 
 public interface ICharacter {
-    List<CharacterSimple> getCharactersFromApiAndSort();
+    List<CharacterBaseInformation> getCharactersFromApiAndSort();
 
     List<Character> getAllCharactersFromDB(Pageable pageable);
 
