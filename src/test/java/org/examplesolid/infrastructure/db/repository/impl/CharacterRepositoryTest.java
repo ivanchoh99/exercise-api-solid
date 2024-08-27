@@ -13,10 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest(properties = {"spring.datasource.url=jdbc:h2:mem:testdb", "spring.jpa.hibernate.ddl-auto=update",})
-class CharacterDBImplTest {
+class CharacterRepositoryTest {
 
     @SpyBean
-    private CharacterDBImpl repository;
+    private CharacterRepository repository;
 
     @Test
     void givenIncompleteCharacter_whenPersist_thenThrowException() {

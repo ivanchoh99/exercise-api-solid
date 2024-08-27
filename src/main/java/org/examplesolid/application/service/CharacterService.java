@@ -2,9 +2,8 @@ package org.examplesolid.application.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.examplesolid.domain.model.api.CharacterAPI;
-import org.examplesolid.domain.model.api.CharacterResponse;
-import org.examplesolid.domain.model.dto.Character;
-import org.examplesolid.domain.model.dto.CharacterBaseInformation;
+import org.examplesolid.domain.model.dto.CharacterInfoResponse;
+import org.examplesolid.domain.model.dto.CharacterResponse;
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.port.api.IRickAndMortyAPI;
 import org.examplesolid.domain.port.mapper.ICharacterMapper;
@@ -36,24 +35,17 @@ public class CharacterService implements ICharacter {
     }
 
     @Override
-    public List<CharacterBaseInformation> getCharactersFromApiAndSort() {
-        CharacterResponse response = clientAPI.getRickAndMortyCharacters();
+    public List<CharacterInfoResponse> getSortedCharacters() {
+        org.examplesolid.domain.model.api.CharacterResponse response = clientAPI.getRickAndMortyCharacters();
         if (response.results().isEmpty()) return Collections.emptyList();
-        return response.results().stream().map(mapper::apiToSimple).sorted(Comparator.comparing(CharacterBaseInformation::getName)).toList();
+        return response.results().stream().map(mapper::apiToSimple).sorted(Comparator.comparing(CharacterInfoResponse::getName)).toList();
     }
 
     @Override
-    public List<Character> getAllCharactersFromDB(Pageable pageable) {
+    public List<CharacterResponse> getAllByPagination(Pageable pageable) {
         Page<CharacterEntity> entities = characterRepository.findAll(pageable);
         return entities.stream().map(mapper::entityToDomain).toList();
     }
-
-    @Override
-    public Character getCharacterFromDB(String name) throws NameNotFoundException {
-        CharacterEntity entity = characterRepository.findByName(name);
-        return mapper.entityToDomain(entity);
-    }
-
     @Override
     public void saveCharactersFromApi() {
         List<CharacterAPI> characterAPIs = clientAPI.getRickAndMortyCharacters().results();
@@ -62,7 +54,7 @@ public class CharacterService implements ICharacter {
     }
 
     @Override
-    public Character addFunFact(String nameCharacter, String funFact) throws NameNotFoundException {
+    public CharacterResponse addFunFact(String nameCharacter, String funFact) throws NameNotFoundException {
         CharacterEntity entity = characterRepository.findByName(nameCharacter);
         entity.addFunFact(funFact);
         CharacterEntity persisted = characterRepository.save(entity);

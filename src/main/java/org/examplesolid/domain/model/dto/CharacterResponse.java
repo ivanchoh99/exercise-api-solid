@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-public class Character {
+public class CharacterResponse {
     private String name;
     private Set<Integer> episodes;
     private List<String> funFacts;

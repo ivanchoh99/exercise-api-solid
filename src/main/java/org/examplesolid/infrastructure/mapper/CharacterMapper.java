@@ -2,8 +2,8 @@ package org.examplesolid.infrastructure.mapper;
 
 import org.examplesolid.application.util.StringUtility;
 import org.examplesolid.domain.model.api.CharacterAPI;
-import org.examplesolid.domain.model.dto.Character;
-import org.examplesolid.domain.model.dto.CharacterBaseInformation;
+import org.examplesolid.domain.model.dto.CharacterInfoResponse;
+import org.examplesolid.domain.model.dto.CharacterResponse;
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.domain.model.entity.EpisodeEntity;
 import org.examplesolid.domain.port.mapper.ICharacterMapper;
@@ -27,21 +27,16 @@ public class CharacterMapper implements ICharacterMapper {
     }
 
     @Override
-    public Character entityToDomain(CharacterEntity characterEntity) {
+    public CharacterResponse entityToDomain(CharacterEntity characterEntity) {
         Set<Integer> episodes = characterEntity.getEpisodes() == null ?
                 Collections.emptySet() : characterEntity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
         List<String> funFacts = StringUtility.stringToList(characterEntity.getFunFacts());
-        return new Character(characterEntity.getName(), episodes, funFacts);
+        return new CharacterResponse(characterEntity.getName(), episodes, funFacts);
     }
 
     @Override
-    public CharacterEntity domainToEntity(Character character) {
-        return mapper.map(character, CharacterEntity.class);
-    }
-
-    @Override
-    public CharacterBaseInformation apiToSimple(CharacterAPI characterAPI) {
-        return mapper.map(characterAPI, CharacterBaseInformation.class);
+    public CharacterInfoResponse apiToSimple(CharacterAPI characterAPI) {
+        return mapper.map(characterAPI, CharacterInfoResponse.class);
     }
 
     @Override

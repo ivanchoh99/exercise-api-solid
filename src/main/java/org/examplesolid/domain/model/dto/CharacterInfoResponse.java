@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CharacterBaseInformation {
+public class CharacterInfoResponse {
     private String name;
     private String status;
     private String species;

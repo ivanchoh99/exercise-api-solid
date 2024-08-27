@@ -1,12 +1,11 @@
 package org.examplesolid.application.service;
 
 import org.examplesolid.domain.model.api.CharacterAPI;
-import org.examplesolid.domain.model.api.CharacterResponse;
-import org.examplesolid.domain.model.dto.Character;
-import org.examplesolid.domain.model.dto.CharacterBaseInformation;
+import org.examplesolid.domain.model.dto.CharacterInfoResponse;
+import org.examplesolid.domain.model.dto.CharacterResponse;
 import org.examplesolid.domain.model.entity.CharacterEntity;
 import org.examplesolid.infrastructure.api.RickAndMortyAPIClient;
-import org.examplesolid.infrastructure.db.repository.impl.CharacterDBImpl;
+import org.examplesolid.infrastructure.db.repository.impl.CharacterRepository;
 import org.examplesolid.infrastructure.mapper.CharacterMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -30,23 +29,15 @@ import static org.mockito.Mockito.when;
 class CharacterServiceTest {
 
     private static RickAndMortyAPIClient api;
-    private static CharacterDBImpl repository;
+    private static CharacterRepository repository;
     private static CharacterService service;
 
-//    public CharacterServiceTest() {
-//        api = mock(RickAndMortyAPIClient.class);
-//        repository = mock(CharacterDBImpl.class);
-//        ModelMapper modelMapper = new ModelMapper();
-//        modelMapper.registerModule(new RecordModule());
-//        CharacterMapper mapper = new CharacterMapper(modelMapper);
-//        service = new CharacterService(api,repository, mapper);
-//    }
 
     @BeforeAll
     static void setUpTestClass() throws Exception {
         MockitoAnnotations.openMocks(CharacterServiceTest.class).close();
         api = mock(RickAndMortyAPIClient.class);
-        repository = mock(CharacterDBImpl.class);
+        repository = mock(CharacterRepository.class);
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.registerModule(new RecordModule());
         CharacterMapper mapper = new CharacterMapper(modelMapper);
@@ -66,7 +57,7 @@ class CharacterServiceTest {
         when(repository.findByName(nameCharacter)).thenReturn(entity);
         when(repository.save(entity)).thenReturn(persistedEntity);
         //* Act
-        Character result = service.addFunFact(nameCharacter, funFact2);
+        CharacterResponse result = service.addFunFact(nameCharacter, funFact2);
         //* Assert
         assertThat(result.getFunFacts()).as("Add a fun fact to character correctly").withFailMessage("The fun facts character don't be modify correctly").contains(funFact1, funFact2);
     }
@@ -76,22 +67,22 @@ class CharacterServiceTest {
         //* Arrange
         CharacterAPI characterAPI1 = CharacterAPI.builder().name("Zuñiga").build();
         CharacterAPI characterAPI2 = CharacterAPI.builder().name("Andres").build();
-        CharacterResponse response = new CharacterResponse(null, List.of(characterAPI1, characterAPI2));
+        org.examplesolid.domain.model.api.CharacterResponse response = new org.examplesolid.domain.model.api.CharacterResponse(null, List.of(characterAPI1, characterAPI2));
         when(api.getRickAndMortyCharacters()).thenReturn(response);
         //* Act
-        List<CharacterBaseInformation> characterSimples = service.getCharactersFromApiAndSort();
+        List<CharacterInfoResponse> characterSimples = service.getSortedCharacters();
         //* Assert
-        assertThat(characterSimples).as("Characters Simples are order alphabetically").withFailMessage("The Characters Simples are not order alphabetically").isSortedAccordingTo(Comparator.comparing(CharacterBaseInformation::getName));
+        assertThat(characterSimples).as("Characters Simples are order alphabetically").withFailMessage("The Characters Simples are not order alphabetically").isSortedAccordingTo(Comparator.comparing(CharacterInfoResponse::getName));
     }
 
     @Test
     void consumingTheApi_whenGetEmptyCharacterResponseFromApi_thenReturnEmptyList() {
         //* Arrange
-        CharacterResponse response = new CharacterResponse(null, List.of());
+        org.examplesolid.domain.model.api.CharacterResponse response = new org.examplesolid.domain.model.api.CharacterResponse(null, List.of());
         when(api.getRickAndMortyCharacters()).thenReturn(response);
         //* Act
-        List<CharacterBaseInformation> characterSimples = service.getCharactersFromApiAndSort();
+        List<CharacterInfoResponse> characterSimples = service.getSortedCharacters();
         //* Assert
-        assertThat(characterSimples).as("Validate that getCharactersFromApiAndSort can return empty list").withFailMessage("The Characters Simples list is not empty or aren't instance").isEmpty();
+        assertThat(characterSimples).as("Validate that getSortedCharacters can return empty list").withFailMessage("The Characters Simples list is not empty or aren't instance").isEmpty();
     }
 }

@@ -18,7 +18,7 @@ public class StringUtility {
         return String.join(SEPARATOR_CONCAT_FACT, funFactsInList);
     }
 
-    public static String joinWithSeparator(String baseString, String attachString) {
+    public static String joinStrings(String baseString, String attachString) {
         return baseString.concat(SEPARATOR_CONCAT_FACT).concat(attachString);
     }
 }

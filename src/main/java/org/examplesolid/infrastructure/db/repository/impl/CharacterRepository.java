@@ -13,12 +13,12 @@ import javax.naming.NameNotFoundException;
 import java.util.List;
 
 @Repository
-public class CharacterDBImpl implements ICharacterRepository {
+public class CharacterRepository implements ICharacterRepository {
 
     private final CharacterJpaRepository repository;
 
     @Autowired
-    public CharacterDBImpl(CharacterJpaRepository repository) {
+    public CharacterRepository(CharacterJpaRepository repository) {
         this.repository = repository;
     }
 
