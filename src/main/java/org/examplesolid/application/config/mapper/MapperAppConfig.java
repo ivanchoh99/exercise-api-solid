@@ -1,4 +1,4 @@
-package org.examplesolid.infrastructure.mapper;
+package org.examplesolid.application.config.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.record.RecordModule;

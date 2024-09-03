@@ -1,9 +1,8 @@
 package org.examplesolid.infrastructure.endpoints.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.examplesolid.domain.model.dto.CharacterInfoResponse;
-import org.examplesolid.domain.model.dto.CharacterResponse;
-import org.examplesolid.domain.port.service.ICharacter;
+import org.examplesolid.application.model.response.CharacterResponse;
+import org.examplesolid.domain.abstraction.service.ICharacter;
 import org.examplesolid.infrastructure.endpoints.dto.request.FactRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.naming.NameNotFoundException;
 import java.util.List;
 
-@Tag(name = "CharacterResponse", description = "Using Rick and Morty API practice some exercise and endpoints")
+@Tag(name = "ApiResponse", description = "Using Rick and Morty API practice some exercise and endpoints")
 @RestController
 @RequestMapping("/api/characters")
 public class CharactersController {
@@ -26,27 +25,16 @@ public class CharactersController {
         this.service = service;
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<CharacterInfoResponse>> getCharacters() {
-        return ResponseEntity.ok(service.getSortedCharacters());
-    }
-
-    @GetMapping("/size")
-    public ResponseEntity<List<CharacterResponse>> gerCharacters(
+    @GetMapping()
+    public ResponseEntity<List<CharacterResponse>> getCharactersPagination(
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
-            @RequestParam(name = "size", defaultValue = "100", required = false) Integer size) {
+            @RequestParam(name = "size", defaultValue = "50", required = false) Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(service.getAllByPagination(pageable));
-    }
-
-    @PostMapping("/save/rickAndMortyApi")
-    public ResponseEntity<Void> persistCharactersFromApi() {
-        service.saveCharactersFromApi();
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(service.getSortedCharacters(pageable));
     }
 
     @PostMapping("/fact")
-    public ResponseEntity<CharacterResponse> persistFact(@RequestBody FactRequest newFunFact) throws NameNotFoundException {
-        return ResponseEntity.ok(service.addFunFact(newFunFact.nameCharacter(), newFunFact.funFact()));
+    public ResponseEntity<CharacterResponse> persistFact(@RequestBody FactRequest newFact) throws NameNotFoundException {
+        return ResponseEntity.ok(service.addFact(newFact.nameCharacter(), newFact.funFact()));
     }
 }

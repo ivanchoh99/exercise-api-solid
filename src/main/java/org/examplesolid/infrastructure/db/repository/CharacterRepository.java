@@ -1,9 +1,9 @@
-package org.examplesolid.infrastructure.db.repository.impl;
+package org.examplesolid.infrastructure.db.repository;
 
 import jakarta.transaction.Transactional;
-import org.examplesolid.domain.model.entity.CharacterEntity;
-import org.examplesolid.domain.port.repository.ICharacterRepository;
-import org.examplesolid.infrastructure.db.repository.CharacterJpaRepository;
+import org.examplesolid.domain.abstraction.repository.ICharacterRepository;
+import org.examplesolid.infrastructure.db.entity.CharacterEntity;
+import org.examplesolid.infrastructure.db.repository.jpa.CharacterJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +43,6 @@ public class CharacterRepository implements ICharacterRepository {
     @Override
     @Transactional
     public CharacterEntity findByName(String name) throws NameNotFoundException {
-        return repository.findByName(name).orElseThrow(() -> new NameNotFoundException("character with name" + name + "not found"));
+        return repository.findByName(name).orElseThrow(() -> new NameNotFoundException("character with name " + name + " not found"));
     }
 }

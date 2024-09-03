@@ -1,6 +1,6 @@
-package org.examplesolid.infrastructure.db.repository;
+package org.examplesolid.infrastructure.db.repository.jpa;
 
-import org.examplesolid.domain.model.entity.CharacterEntity;
+import org.examplesolid.infrastructure.db.entity.CharacterEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

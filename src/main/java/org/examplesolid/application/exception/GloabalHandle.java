@@ -1,7 +1,7 @@
-package org.examplesolid.domain.exception;
+package org.examplesolid.application.exception;
 
-import org.examplesolid.domain.exception.custom.ErrorClientException;
-import org.examplesolid.domain.model.dto.ErrorResponse;
+import org.examplesolid.application.exception.custom.ErrorClientException;
+import org.examplesolid.application.model.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +18,6 @@ public class GloabalHandle {
 
     @ExceptionHandler(NameNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNameNotFoundException(final NameNotFoundException e) {
-        return ResponseEntity.badRequest().body(new ErrorResponse("Can't find the name of the character"));
+        return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     }
 }

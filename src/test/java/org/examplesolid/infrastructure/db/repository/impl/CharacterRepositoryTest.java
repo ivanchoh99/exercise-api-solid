@@ -1,6 +1,8 @@
 package org.examplesolid.infrastructure.db.repository.impl;
 
-import org.examplesolid.domain.model.entity.CharacterEntity;
+import org.examplesolid.infrastructure.db.entity.CharacterEntity;
+import org.examplesolid.infrastructure.db.entity.EpisodeEntity;
+import org.examplesolid.infrastructure.db.repository.CharacterRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -21,7 +23,10 @@ class CharacterRepositoryTest {
     @Test
     void givenIncompleteCharacter_whenPersist_thenThrowException() {
         //*Arrange
-        CharacterEntity entity = new CharacterEntity(null, "estudiante", Set.of(1, 2, 3));
+        EpisodeEntity episodeEntity = new EpisodeEntity();
+        episodeEntity.setNumberEpisode(1);
+        CharacterEntity entity = new CharacterEntity();
+        entity.setEpisodes(Set.of(episodeEntity));
         //* Act & Assert
         assertThatThrownBy(() -> repository.save(entity)).isInstanceOf(DataIntegrityViolationException.class);
     }
@@ -33,7 +38,8 @@ class CharacterRepositoryTest {
     @Test
     void givenNameOfCharacter_whenSearchInDbAndFoundOne_thenReturnCharacter() throws NameNotFoundException {
         //* Arrange
-        CharacterEntity entity = new CharacterEntity("ivan", "estudiante", Set.of(1, 3, 5));
+        CharacterEntity entity = new CharacterEntity();
+        entity.setName("ivan");
         CharacterEntity persisted = repository.save(entity);
         //* Act
         CharacterEntity characterFound = repository.findByName(entity.getName());

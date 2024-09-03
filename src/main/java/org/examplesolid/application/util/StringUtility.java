@@ -1,24 +1,38 @@
 package org.examplesolid.application.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import static org.examplesolid.application.util.Constants.SEPARATOR_CONCAT_FACT;
+import java.util.stream.Collectors;
 
 public class StringUtility {
 
-    public static List<String> stringToList(String funFactsInString) {
-        if (funFactsInString == null || funFactsInString.isBlank() || funFactsInString.isEmpty()) return Collections.emptyList();
-        return Arrays.stream(funFactsInString.split(SEPARATOR_CONCAT_FACT)).toList();
+
+    public static List<String> stringToList(String string) {
+        if (string == null || string.isBlank() || string.isEmpty()) return new ArrayList<>();
+        return Arrays.stream(string.split("-")).collect(Collectors.toList());
     }
 
-    public static String listToString(List<String> funFactsInList) {
-        if (funFactsInList == null || funFactsInList.isEmpty()) return "";
-        return String.join(SEPARATOR_CONCAT_FACT, funFactsInList);
+    public static List<String> stringToList(String string, String delimiter) {
+        if (string == null || string.isBlank() || string.isEmpty()) return new ArrayList<>();
+        return Arrays.stream(string.split(delimiter)).collect(Collectors.toList());
+    }
+
+    public static String listToString(List<String> listStrings) {
+        if (listStrings == null || listStrings.isEmpty()) return "";
+        return String.join("-", listStrings);
+    }
+
+    public static String listToString(List<String> listStrings, String delimiter) {
+        if (listStrings == null || listStrings.isEmpty()) return "";
+        return String.join(delimiter, listStrings);
     }
 
     public static String joinStrings(String baseString, String attachString) {
-        return baseString.concat(SEPARATOR_CONCAT_FACT).concat(attachString);
+        return baseString.concat("-").concat(attachString);
+    }
+
+    public static String joinStrings(String baseString, String attachString, String delimiter) {
+        return baseString.concat(delimiter).concat(attachString);
     }
 }

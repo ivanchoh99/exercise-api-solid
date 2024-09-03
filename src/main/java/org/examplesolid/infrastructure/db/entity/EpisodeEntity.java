@@ -1,4 +1,4 @@
-package org.examplesolid.domain.model.entity;
+package org.examplesolid.infrastructure.db.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,13 +20,4 @@ public class EpisodeEntity {
     private CharacterEntity character;
     @Column(name = "number_episode")
     private Integer numberEpisode;
-
-    public EpisodeEntity(Integer numberEpisode) {
-        this.numberEpisode = numberEpisode;
-    }
-
-    public EpisodeEntity(Integer numberEpisode, CharacterEntity character) {
-        this.numberEpisode = numberEpisode;
-        this.character = character;
-    }
 }
