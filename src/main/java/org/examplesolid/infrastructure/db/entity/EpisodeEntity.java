@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Setter
 @Getter
+@Entity
 @Table(name = "character_episodes")
 @NoArgsConstructor
 public class EpisodeEntity {
@@ -15,8 +15,8 @@ public class EpisodeEntity {
     @Column(name = "number", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "character_uuid")
+    @ManyToOne
+    @JoinColumn(name = "character_uuid", nullable = false)
     private CharacterEntity character;
     @Column(name = "number_episode")
     private Integer numberEpisode;

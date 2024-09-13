@@ -8,10 +8,10 @@ import lombok.Setter;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
-@Table(name = "character_tv", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 @Getter
 @Setter
+@Entity
+@Table(name = "character_tv", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 @NoArgsConstructor
 public class CharacterEntity {
     @Id
@@ -24,7 +24,7 @@ public class CharacterEntity {
     private String gender;
     private String origin;
     private String location;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "character", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "character")
     private Set<EpisodeEntity> episodes;
     private String facts;
 }
