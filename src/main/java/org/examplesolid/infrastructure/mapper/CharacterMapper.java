@@ -7,21 +7,31 @@ import org.examplesolid.application.util.StringUtility;
 import org.examplesolid.domain.model.Character;
 import org.examplesolid.infrastructure.db.entity.CharacterEntity;
 import org.examplesolid.infrastructure.db.entity.EpisodeEntity;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class CharacterMapper {
 
-    private Integer episodeUrlToNumber(String url) {
-        String numberString = url.replace("https://rickandmortyapi.com/api/episode/", "");
-        return Integer.parseInt(numberString);
+    private final ModelMapper mapper;
+
+    @Autowired
+    public CharacterMapper(ModelMapper mapper) {
+        this.mapper = mapper;
     }
+
+    private final Function<String, Integer> episodeUrlToNumber = url -> Integer.parseInt(url.replace("https://rickandmortyapi.com/api/episode/", ""));
+
+    private final Function<Set<EpisodeEntity>, Set<Integer>> episodeEntitysToSetNumber = episodeEntities -> {
+        if (episodeEntities == null) return new HashSet<>();
+        return episodeEntities.stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
+    };
 
     private Set<EpisodeEntity> setNumberToSetEpisodeEntity(Set<Integer> episodes, CharacterEntity characterEntity) {
         Set<EpisodeEntity> episodeEntities = episodes.stream().map(number -> {
@@ -34,7 +44,7 @@ public class CharacterMapper {
     }
 
     public CharacterResponse entityToResponse(CharacterEntity entity) {
-        Set<Integer> episodesNumber = entity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
+        Set<Integer> episodesNumber = episodeEntitysToSetNumber.apply(entity.getEpisodes());
         List<String> facts = StringUtility.stringToList(entity.getFacts());
         CharacterResponse response = new CharacterResponse();
         response.setName(entity.getName());
@@ -50,7 +60,9 @@ public class CharacterMapper {
 
     public CharacterEntity apiToEntity(CharacterApi characterApi) {
         CharacterEntity entity = new CharacterEntity();
-        Set<Integer> numberEpisodes = characterApi.getEpisode().stream().map(this::episodeUrlToNumber).collect(Collectors.toSet());
+        Set<Integer> numberEpisodes = characterApi.getEpisode() != null ?
+                characterApi.getEpisode().stream().map(episodeUrlToNumber).collect(Collectors.toSet()) :
+                Collections.emptySet();
         Set<EpisodeEntity> episodesEntitys = setNumberToSetEpisodeEntity(numberEpisodes, entity);
         entity.setName(characterApi.getName());
         entity.setGender(characterApi.getGender());
@@ -71,7 +83,7 @@ public class CharacterMapper {
         character.setLocation(entity.getLocation());
         character.setOrigin(entity.getOrigin());
         character.setStatus(entity.getStatus());
-        Set<Integer> episodes = entity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet());
+        Set<Integer> episodes = entity.getEpisodes() != null ? entity.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet()) : new HashSet<>();
         List<String> facts = StringUtility.stringToList(entity.getFacts());
         character.setEpisodes(episodes);
         character.setFacts(facts);
