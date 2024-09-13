@@ -1,4 +1,4 @@
-package org.examplesolid.application.model.api;
+package org.examplesolid.infrastructure.api.model;
 
 public record Location(String name, String url) {
 }

@@ -1,7 +1,7 @@
-package org.examplesolid.application.exception;
+package org.examplesolid.infrastructure.endpoints.controller;
 
-import org.examplesolid.application.exception.custom.ErrorClientException;
-import org.examplesolid.application.model.response.ErrorResponse;
+import org.examplesolid.application.exception.ErrorClientException;
+import org.examplesolid.infrastructure.endpoints.dto.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

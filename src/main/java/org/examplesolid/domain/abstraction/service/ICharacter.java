@@ -1,6 +1,6 @@
 package org.examplesolid.domain.abstraction.service;
 
-import org.examplesolid.application.model.response.CharacterResponse;
+import org.examplesolid.infrastructure.endpoints.dto.response.CharacterResponse;
 import org.springframework.data.domain.Pageable;
 
 import javax.naming.NameNotFoundException;

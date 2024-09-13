@@ -2,14 +2,14 @@ package org.examplesolid.application.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.examplesolid.application.api.IRickAndMortyAPI;
-import org.examplesolid.application.model.api.ApiResponse;
-import org.examplesolid.application.model.api.CharacterApi;
-import org.examplesolid.application.model.response.CharacterResponse;
+import org.examplesolid.application.mapper.CharacterMapper;
 import org.examplesolid.domain.abstraction.repository.ICharacterRepository;
 import org.examplesolid.domain.abstraction.service.ICharacter;
 import org.examplesolid.domain.model.Character;
+import org.examplesolid.infrastructure.api.model.ApiResponse;
+import org.examplesolid.infrastructure.api.model.CharacterApi;
 import org.examplesolid.infrastructure.db.entity.CharacterEntity;
-import org.examplesolid.infrastructure.mapper.CharacterMapper;
+import org.examplesolid.infrastructure.endpoints.dto.response.CharacterResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

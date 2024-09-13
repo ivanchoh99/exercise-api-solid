@@ -1,13 +1,13 @@
 package org.examplesolid.application.service;
 
-import org.examplesolid.application.model.api.ApiResponse;
-import org.examplesolid.application.model.api.CharacterApi;
-import org.examplesolid.application.model.api.Location;
-import org.examplesolid.application.model.response.CharacterResponse;
+import org.examplesolid.application.mapper.CharacterMapper;
 import org.examplesolid.infrastructure.api.RickAndMortyAPIClient;
+import org.examplesolid.infrastructure.api.model.ApiResponse;
+import org.examplesolid.infrastructure.api.model.CharacterApi;
+import org.examplesolid.infrastructure.api.model.Location;
 import org.examplesolid.infrastructure.db.entity.CharacterEntity;
 import org.examplesolid.infrastructure.db.repository.CharacterRepository;
-import org.examplesolid.infrastructure.mapper.CharacterMapper;
+import org.examplesolid.infrastructure.endpoints.dto.response.CharacterResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

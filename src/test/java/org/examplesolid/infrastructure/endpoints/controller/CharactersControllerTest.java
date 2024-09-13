@@ -1,9 +1,9 @@
 package org.examplesolid.infrastructure.endpoints.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.examplesolid.application.model.response.CharacterResponse;
 import org.examplesolid.application.service.CharacterService;
 import org.examplesolid.infrastructure.endpoints.dto.request.FactRequest;
+import org.examplesolid.infrastructure.endpoints.dto.response.CharacterResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

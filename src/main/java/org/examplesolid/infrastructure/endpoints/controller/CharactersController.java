@@ -1,9 +1,9 @@
 package org.examplesolid.infrastructure.endpoints.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.examplesolid.application.model.response.CharacterResponse;
 import org.examplesolid.domain.abstraction.service.ICharacter;
 import org.examplesolid.infrastructure.endpoints.dto.request.FactRequest;
+import org.examplesolid.infrastructure.endpoints.dto.response.CharacterResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

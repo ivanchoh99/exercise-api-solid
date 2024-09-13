@@ -1,4 +1,4 @@
-package org.examplesolid.application.model.response;
+package org.examplesolid.infrastructure.endpoints.dto.response;
 
 import lombok.Data;
 

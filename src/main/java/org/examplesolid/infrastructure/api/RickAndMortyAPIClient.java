@@ -1,8 +1,8 @@
 package org.examplesolid.infrastructure.api;
 
 import org.examplesolid.application.api.IRickAndMortyAPI;
-import org.examplesolid.application.exception.custom.ErrorClientException;
-import org.examplesolid.application.model.api.ApiResponse;
+import org.examplesolid.application.exception.ErrorClientException;
+import org.examplesolid.infrastructure.api.model.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Repository;

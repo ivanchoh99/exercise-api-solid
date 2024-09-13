@@ -1,12 +1,12 @@
-package org.examplesolid.infrastructure.mapper;
+package org.examplesolid.application.mapper;
 
 import lombok.extern.slf4j.Slf4j;
-import org.examplesolid.application.model.api.CharacterApi;
-import org.examplesolid.application.model.response.CharacterResponse;
 import org.examplesolid.application.util.StringUtility;
 import org.examplesolid.domain.model.Character;
+import org.examplesolid.infrastructure.api.model.CharacterApi;
 import org.examplesolid.infrastructure.db.entity.CharacterEntity;
 import org.examplesolid.infrastructure.db.entity.EpisodeEntity;
+import org.examplesolid.infrastructure.endpoints.dto.response.CharacterResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
