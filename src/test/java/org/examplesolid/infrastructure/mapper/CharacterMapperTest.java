@@ -6,6 +6,7 @@ import org.examplesolid.application.model.response.CharacterResponse;
 import org.examplesolid.domain.model.Character;
 import org.examplesolid.infrastructure.db.entity.CharacterEntity;
 import org.examplesolid.infrastructure.db.entity.EpisodeEntity;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,37 +31,34 @@ class CharacterMapperTest {
     @InjectMocks
     private CharacterMapper mapper;
 
-//    CharacterMapperTest() {
-//        ModelMapper modelMapper = new ModelMapper();
-//        modelMapper.registerModule(new RecordModule());
-//        CharacterMapper mapper = new CharacterMapper(modelMapper);
-//        this.mapper = mapper;
-//    }
-
     private final String name = "Rick Sanchez";
     private final String fact1 = "cientifico";
     private final String fact2 = "loco";
     private final String factsString = fact1 + "-" + fact2;
     private final Set<Integer> episodes = Set.of(1, 2, 3);
     private final List<String> factsList = List.of(fact1, fact2);
+    private final CharacterEntity entity = new CharacterEntity();
 
-    private Set<EpisodeEntity> episodeEntitiesWithCharacter(CharacterEntity entity) {
-        return episodes.stream().map(number -> {
-            EpisodeEntity episode = new EpisodeEntity();
-            episode.setNumberEpisode(number);
-            episode.setCharacter(entity);
-            return episode;
-        }).collect(Collectors.toSet());
+    @BeforeEach
+    void setUp() {
+        Set<EpisodeEntity> episodesEntities = episodesOfCharacter.apply(entity);
+        entity.setName(name);
+        entity.setFacts(factsString);
+        entity.setEpisodes(episodesEntities);
+
     }
+
+    Function<CharacterEntity, Set<EpisodeEntity>> episodesOfCharacter = characterEntity -> episodes.stream().map(number -> {
+        EpisodeEntity episode = new EpisodeEntity();
+        episode.setNumberEpisode(number);
+        episode.setCharacter(characterEntity);
+        return episode;
+    }).collect(Collectors.toSet());
+
 
     @Test
     void entityToResponse() {
         //* Arrange
-        CharacterEntity entity = new CharacterEntity();
-        Set<EpisodeEntity> episodesEntities = episodeEntitiesWithCharacter(entity);
-        entity.setName(name);
-        entity.setFacts(factsString);
-        entity.setEpisodes(episodesEntities);
         CharacterResponse expected = new CharacterResponse();
         expected.setName(name);
         expected.setFacts(List.of(fact1, fact2));
@@ -67,9 +66,7 @@ class CharacterMapperTest {
         //* Act
         CharacterResponse response = mapper.entityToResponse(entity);
         //* Assert
-        assertThat(response)
-                .as("convert entity a response")
-                .withFailMessage("No se convirtio la entidad correctamentes")
+        assertThat(response).as("convert entity a response").withFailMessage("No se convirtio la entidad correctamentes")
                 .hasFieldOrPropertyWithValue("name", expected.getName())
                 .hasFieldOrPropertyWithValue("facts", expected.getFacts())
                 .hasFieldOrPropertyWithValue("episodes", expected.getEpisodes());
@@ -88,22 +85,12 @@ class CharacterMapperTest {
         //* Act
         CharacterEntity result = mapper.apiToEntity(api);
         //* Assert
-        assertThat(result.getName())
-                .as("convert entity to response: Name ")
-                .isEqualTo(name);
-        assertThat(result.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet()))
-                .as("convert entity to response: episodes")
-                .containsAll(episodes);
+        assertThat(result.getName()).as("convert entity to response: Name ").isEqualTo(name);
+        assertThat(result.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet())).as("convert entity to response: episodes").containsAll(episodes);
     }
 
     @Test
     void entityToDomain() {
-        //* Arrange
-        CharacterEntity entity = new CharacterEntity();
-        entity.setUuid(UUID.randomUUID());
-        entity.setName(name);
-        entity.setEpisodes(episodeEntitiesWithCharacter(entity));
-        entity.setFacts(factsString);
         //* Act
         Character result = mapper.entityToDomain(entity);
         //* Assert
@@ -129,8 +116,7 @@ class CharacterMapperTest {
         //* Act
         CharacterEntity result = mapper.domainToEntity(domain);
         //* Assert
-        assertThat(result.getName())
-                .as("convert domain to entity: Name")
+        assertThat(result.getName()).as("convert domain to entity: Name")
                 .isEqualTo(name);
         assertThat(result.getEpisodes().stream().map(EpisodeEntity::getNumberEpisode).collect(Collectors.toSet()))
                 .as("convert domain to entity: episodes")
