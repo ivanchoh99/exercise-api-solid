@@ -63,7 +63,8 @@ public class CharacterService implements ICharacter {
         CharacterEntity entity = characterRepository.findByName(nameCharacter);
         Character character = mapper.entityToDomain(entity);
         character.addFact(funFact);
-        CharacterEntity persisted = characterRepository.save(mapper.domainToEntity(character));
+        CharacterEntity toPersist = mapper.domainToEntity(character);
+        CharacterEntity persisted = characterRepository.save(toPersist);
         return mapper.entityToResponse(persisted);
     }
 }
