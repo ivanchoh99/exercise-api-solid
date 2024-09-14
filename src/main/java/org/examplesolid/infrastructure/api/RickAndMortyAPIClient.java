@@ -1,8 +1,8 @@
 package org.examplesolid.infrastructure.api;
 
-import org.examplesolid.domain.exception.custom.ErrorClientException;
-import org.examplesolid.domain.model.api.CharacterResponse;
-import org.examplesolid.domain.port.api.IRickAndMortyAPI;
+import org.examplesolid.application.api.IRickAndMortyAPI;
+import org.examplesolid.application.exception.ErrorClientException;
+import org.examplesolid.infrastructure.api.model.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Repository;
@@ -20,7 +20,7 @@ public class RickAndMortyAPIClient implements IRickAndMortyAPI {
     }
 
     @Override
-    public CharacterResponse getRickAndMortyCharacters() {
+    public ApiResponse getRickAndMortyCharacters() {
         return restClient.get()
                 .uri("/character")
                 .retrieve()
@@ -28,6 +28,6 @@ public class RickAndMortyAPIClient implements IRickAndMortyAPI {
                     throw new ErrorClientException(response.getStatusText());
                 })).onStatus(HttpStatusCode::is4xxClientError, ((request, response) -> {
                     throw new ErrorClientException(response.getStatusText());
-                })).body(CharacterResponse.class);
+                })).body(ApiResponse.class);
     }
 }
